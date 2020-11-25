@@ -1,0 +1,4 @@
+applications:
+  - name: nostalgic-ramanujan
+    memory: 512M
+    instances: 1
