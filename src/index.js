@@ -1,0 +1,124 @@
+const path = require('path')
+const http = require('http')
+const express = require('express')
+const socketio = require('socket.io')
+const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
+const port = process.env.PORT || 3000
+const publicDirectoryPath = path.join(__dirname, '../public')
+app.use(express.static(publicDirectoryPath))
+
+// variable to maintain connected users
+const connectedUsers = {}
+
+// user methods
+const {addUser, removeUser, getUser, getUsersInChat} = require('./utils/users')
+
+// construct method/file properly
+const { generateMessage } = require('./utils/messages')
+const { generateFile } = require('./utils/file')
+
+//methods while connected users
+io.on('connection', (socket) => {
+    console.log('a new user connected')
+    
+    // when a new user connects, add to list and let all connected users know he entered
+    socket.on('newUser', (options) => {
+        const user = addUser({ id: socket.id, ...options })
+
+        if (user) {
+            socket.emit('message', generateMessage('Admin','Welcome!'))
+            socket.broadcast.emit('message', generateMessage('Admin',`${user.userName} has joined!`))
+            io.emit('updateUsersList', {
+                users: getUsersInChat()
+            })
+
+            connectedUsers[user.userName] = socket
+        }
+    })
+
+    // send message to all connected users
+    socket.on('sendMessage', (message) => {
+        const user = getUser(socket.id)
+        io.emit('message', generateMessage(user.userName, message))
+    })
+
+    // send a private message only to users selected
+    socket.on('privateMessage', (message, to) => {
+        // get sender and add him to reciever list
+        const user = getUser(socket.id)
+        const userName = user.userName
+        to.push(userName)
+
+        // loop over recieveres and send them a message
+        to.map((friend) => {
+            connectedUsers[friend].emit('message', generateMessage(userName, message))
+        })
+    })
+
+    // send file to all connected users based on file type
+    socket.on('sendFile', function (msg) {
+        socket.username = msg.userName;
+
+        //get file types and send to the correct method
+        const fileType = msg.file.split("/")[0]
+        if(fileType === "data:video"){
+            io.emit('video', generateFile(msg.userName, msg.file))
+        } else if(fileType === "data:image"){
+        io.emit('image', generateFile(msg.userName, msg.file))
+        } else if(fileType === "data:audio"){
+            io.emit('audio', generateFile(msg.userName, msg.file))
+        } else{
+            console.log('ERROR, can not send this type of file');
+        }
+    });
+
+    socket.on('privateFile', (fileToBeSent, to) => {
+        // get sender and add him to reciever list
+        const user = getUser(socket.id)
+        const userName = user.userName
+        to.push(userName)
+
+        // get file type and then
+        // loop over recieveres and send them the file
+        const fileType = fileToBeSent.file.split("/")[0]
+
+        if(fileType === "data:video"){
+            to.map((friend) => {
+                connectedUsers[friend].emit('video', generateFile(fileToBeSent.userName, fileToBeSent.file))
+            })
+        } else if(fileType === "data:image"){
+            to.map((friend) => {
+                connectedUsers[friend].emit('image', generateFile(fileToBeSent.userName, fileToBeSent.file))
+            })
+        } else if(fileType === "data:audio"){
+            to.map((friend) => {
+                connectedUsers[friend].emit('audio', generateFile(fileToBeSent.userName, fileToBeSent.file))
+            })
+        } else{
+            console.log('ERROR, can not send this type of file');
+        }
+    })
+
+    // when user disconnects, remove from list and tell other users that he left
+    socket.on('disconnect', () => {
+        const userToRemove = removeUser(socket.id)
+
+        if (userToRemove) {
+            io.emit('message', generateMessage('Admin', `${userToRemove.userName} has left the chat!`))
+            io.emit('updateUsersList', {
+                users: getUsersInChat()
+            })
+        }
+    })
+})
+
+server.listen(port, () => {
+    console.log(`Listening on port: ${port}!`)
+})
+
+
+
+
+
