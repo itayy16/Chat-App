@@ -7,7 +7,7 @@ const server = http.createServer(app)
 const io = socketio(server)
 let port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
-app.use(express.static(publicDirectoryPath))
+//app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS
 app.enable('trust proxy');
