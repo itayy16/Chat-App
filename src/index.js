@@ -10,7 +10,7 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS
-app.enable('trust proxy');
+/*app.enable('trust proxy');
 
 app.use (function (req, res, next) {
   if (req.secure || process.env.BLUEMIX_REGION === undefined) {
@@ -19,7 +19,7 @@ app.use (function (req, res, next) {
     console.log('redirecting to https');
     res.redirect('https://' + req.headers.host + req.url);
   }
-});
+});*/
 
 // variable to maintain connected users
 const connectedUsers = {}

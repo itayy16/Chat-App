@@ -1,6 +1,6 @@
 const socket = io()
 
-var express = require("express");
+/*var express = require("express");
 var app = express();
 
 app.enable('trust proxy');
@@ -12,7 +12,7 @@ app.use (function (req, res, next) {
     console.log('redirecting to https');
     res.redirect('https://' + req.headers.host + req.url);
   }
-});
+});*/
 
 // Message elements
 const $messageForm = document.querySelector('#message-form')
