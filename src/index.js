@@ -9,6 +9,18 @@ let port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
+//Make sure to run over HTTPS
+app.enable('trust proxy');
+
+app.use (function (req, res, next) {
+  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
+    next();
+  } else {
+    console.log('redirecting to https');
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});
+
 // variable to maintain connected users
 const connectedUsers = {}
 
