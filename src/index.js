@@ -5,12 +5,12 @@ const socketio = require('socket.io')
 const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
-let port = process.env.PORT || 3000
+let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS
-/*app.enable('trust proxy');
+app.enable('trust proxy');
 
 app.use (function (req, res, next) {
   if (req.secure || process.env.BLUEMIX_REGION === undefined) {
@@ -19,7 +19,14 @@ app.use (function (req, res, next) {
     console.log('redirecting to https');
     res.redirect('https://' + req.headers.host + req.url);
   }
-});*/
+});
+
+// Allow static files in the /public directory to be served
+app.use(express.static(__dirname + '/public'));
+
+server.listen(port, () => {
+    console.log(`Listening on port: ${server.address().port}!`)
+})
 
 // variable to maintain connected users
 const connectedUsers = {}
@@ -126,9 +133,7 @@ io.on('connection', (socket) => {
     })
 })
 
-server.listen(port, () => {
-    console.log(`Listening on port: ${port}!`)
-})
+
 
 
 
