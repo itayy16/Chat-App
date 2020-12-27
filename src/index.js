@@ -8,16 +8,10 @@ const io = socketio(server)
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 
-
 //Make sure to run over HTTPS 
-
-/*app.use((req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-});*/
-
 //helmet
+
 const helmet = require('helmet');
-//import helmet from 'helmet';
 app.use(helmet());
 /*app.use(helmet({
     contentSecurityPolicy: {
@@ -34,9 +28,8 @@ app.use(helmet());
     featurePolicy: {},
 })); */
 
-app.use(express.static(publicDirectoryPath))
 
-// Use X-XXS protection
+/* Use X-XXS protection
 
 const xXssProtection = require("x-xss-protection");
  
@@ -45,22 +38,9 @@ app.use(xXssProtection());
 app.use((req, res, next) => {
     res.setHeader("X-XSS-Protection", "1; mode=block");
     next();
-  });
+  });*/
 
-
-
-/*
-app.enable('trust proxy');
-
-
-app.use (function (req, res, next) {
-  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
-    next();
-  } else {
-    console.log('redirecting to https');
-    res.redirect('https://' + req.headers.host + req.url);
-  }
-});*/
+  app.use(express.static(publicDirectoryPath))
 
 // Allow static files in the /public directory to be served
 app.use(express.static(__dirname + '/public'));
