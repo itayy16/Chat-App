@@ -11,9 +11,9 @@ app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
 
-/*app.use((req, res) => {
+app.use((req, res) => {
     res.setHeader('Content-Type', 'application/json');
-});*/
+});
 
 //helmet
 const helmet = require('helmet');
