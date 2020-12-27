@@ -11,8 +11,12 @@ app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
 
-const xssFilter = require('x-xss-protection')
-app.use(xssFilter())
+//const xssFilter = require('x-xss-protection')
+//app.use(xssFilter())
+const xXssProtection = require("x-xss-protection");
+ 
+// Set "X-XSS-Protection: 0"
+app.use(xXssProtection());
 app.use((req, res, next) => {
     res.setHeader("X-XSS-Protection", "1; mode=block");
     next();
