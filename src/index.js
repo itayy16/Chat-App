@@ -11,6 +11,10 @@ app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
 
+const xssFilter = require('x-xss-protection')
+app.use(xssFilter())
+app.use(xssFilter({ setOnOldIE: true })
+
 
 /*
 app.enable('trust proxy');
