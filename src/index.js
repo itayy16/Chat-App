@@ -3,12 +3,15 @@ const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
 const app = express()
-const server = http.createServer(app)
+//const server = http.createServer(app)
 const io = socketio(server)
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
+const server = http.createServer(function (req, res){
+    res.setHeader('Content-Security-Policy', "script-src 'self'")
+})
 //Make sure to run over HTTPS 
 
 
