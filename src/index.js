@@ -11,9 +11,28 @@ app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
 
-app.use((req, res) => {
+/*app.use((req, res) => {
     res.setHeader('Content-Type', 'application/json');
-});
+});*/
+
+//helmet
+
+import helmet from 'helmet';
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'"],
+            scriptSrc: ["'self'"],
+            reportUri: '/report-violation',
+            objectSrc: ["'self'"],
+            upgradeInsecureRequests: true,
+        },
+    },
+    referrerPolicy: {policy: 'same-origin'},
+    featurePolicy: {},
+}));
+
 
 // Use X-XXS protection
 
