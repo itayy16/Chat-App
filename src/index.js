@@ -8,26 +8,11 @@ const io = socketio(server)
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 
-//Make sure to run over HTTPS 
-//helmet
+
+// Secure website
 
 const helmet = require('helmet');
 app.use(helmet());
-/*app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            styleSrc: ["'self'"],
-            scriptSrc: ["'self'"],
-            reportUri: '/report-violation',
-            objectSrc: ["'self'"],
-            upgradeInsecureRequests: true,
-        },
-    },
-    referrerPolicy: { policy: 'same-origin' },
-    featurePolicy: {},
-})); */
-
 
 app.use(express.static(publicDirectoryPath))
 
