@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        Content-Security-Policy: default-src https:
+        <meta http-equiv="Content-Security-Policy" content="default-src https:">
         <title>Chat App</title>
         <link rel="icon" href="/img/favicon.png">
         <link rel="stylesheet" href="/css/styles.css">
@@ -9,7 +11,6 @@
         <div class="centered-form">
             <div class="centered-form__box">
                 <h1>Welcome To Our Chat Room</h1>
-                <meta http-equiv="Content-Security-Policy" content="default-src https:">
                 <form action="/chat.html">
                     <label>Username:</label>
                     <input type="text" name="userName" placeholder="Enter username..."required>
