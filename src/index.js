@@ -18,7 +18,8 @@ app.use(express.static(publicDirectoryPath))
 //helmet
 
 import helmet from 'helmet';
-app.use(helmet({
+app.use(helmet());
+/*app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
@@ -29,9 +30,9 @@ app.use(helmet({
             upgradeInsecureRequests: true,
         },
     },
-    referrerPolicy: {policy: 'same-origin'},
+    referrerPolicy: { policy: 'same-origin' },
     featurePolicy: {},
-}));
+})); */
 
 
 // Use X-XXS protection
