@@ -11,8 +11,12 @@ app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
 
-//const xssFilter = require('x-xss-protection')
-//app.use(xssFilter())
+app.use(req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+}
+
+// Use X-XXS protection
+
 const xXssProtection = require("x-xss-protection");
  
 // Set "X-XSS-Protection: 0"
@@ -53,6 +57,7 @@ const {addUser, removeUser, getUser, getUsersInChat} = require('./utils/users')
 // construct method/file properly
 const { generateMessage } = require('./utils/messages')
 const { generateFile } = require('./utils/file')
+const { application } = require('express')
 
 //methods while connected users
 io.on('connection', (socket) => {
