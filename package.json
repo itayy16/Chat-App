@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/node": "^14.11.10",
     "delivery": "0.0.6",
-    "express": "^4.15.2",
+    "express": "^4.17.1",
     "helmet": "^4.2.0",
     "multer": "^1.4.2",
     "nodemon": "^2.0.6",
