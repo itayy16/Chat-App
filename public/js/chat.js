@@ -30,7 +30,6 @@ function toggleUsersToPrivateMessage(event) {
         event.style.backgroundColor = '#90EE90' // light green
         to.push(username)
     }
-    
 }
 
 socket.on('message', (message) => {

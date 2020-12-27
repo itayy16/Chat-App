@@ -29,18 +29,7 @@ app.use(helmet());
 })); */
 
 
-/* Use X-XXS protection
-
-const xXssProtection = require("x-xss-protection");
- 
-// Set "X-XSS-Protection: 0"
-app.use(xXssProtection());
-app.use((req, res, next) => {
-    res.setHeader("X-XSS-Protection", "1; mode=block");
-    next();
-  });*/
-
-  app.use(express.static(publicDirectoryPath))
+app.use(express.static(publicDirectoryPath))
 
 // Allow static files in the /public directory to be served
 app.use(express.static(__dirname + '/public'));
