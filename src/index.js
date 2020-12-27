@@ -10,6 +10,8 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
+
+
 /*
 app.enable('trust proxy');
 
