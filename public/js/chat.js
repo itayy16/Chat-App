@@ -1,5 +1,19 @@
 const socket = io()
 
+/*var express = require("express");
+var app = express();
+
+app.enable('trust proxy');
+
+app.use (function (req, res, next) {
+  if (req.secure || process.env.BLUEMIX_REGION === undefined) {
+    next();
+  } else {
+    console.log('redirecting to https');
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});*/
+
 // Message elements
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
