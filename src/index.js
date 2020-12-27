@@ -7,7 +7,7 @@ const server = http.createServer(app)
 const io = socketio(server)
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
-app.use(express.static(publicDirectoryPath))
+//app.use(express.static(publicDirectoryPath))
 
 //Make sure to run over HTTPS 
 
