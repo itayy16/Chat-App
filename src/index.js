@@ -17,7 +17,7 @@ app.use(express.static(publicDirectoryPath))
 
 //helmet
 
-import helmet from 'helmet';
+//import helmet from 'helmet';
 app.use(helmet());
 /*app.use(helmet({
     contentSecurityPolicy: {
