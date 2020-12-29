@@ -1,3 +1,6 @@
+//Nofar BenYashar, 314176
+//Itay Hanya , 314174
+
 const socket = io()
 
 // Message elements
